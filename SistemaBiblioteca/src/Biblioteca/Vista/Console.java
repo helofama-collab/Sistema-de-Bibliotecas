@@ -1,6 +1,12 @@
-package temporal_biblioteca;
+package Biblioteca.Vista;
 
 import java.util.Scanner;
+
+import Biblioteca.Controlador.GestorBiblioteca;
+import Biblioteca.Modelo.Libro;
+import Biblioteca.Modelo.Prestamo;
+import Biblioteca.Modelo.Usuario;
+
 import java.util.List;
 
 public class Console {
@@ -34,9 +40,43 @@ public class Console {
     }
 
     private void menuResumenes() {
-        System.out.println("\n--- RESUMEN DE LIBROS (Estado Actual) ---");
+        System.out.println("1. Resumen de Libros | 2. Resumen de usuarios");
+        int sub = sc.nextInt(); sc.nextLine();
+        if (sub == 1) {
+            System.out.print("Resumen de Libro: ");
+            for(Libro l : controlador.buscarPorTitulo(sc.nextLine())){
+                System.out.println("Isbn: " + l.getIsbn());
+                System.out.println("Título: " + l.getTitulo());
+                System.out.println("Autor: " + l.getAutor());
+                System.out.println("Año de publicación: " + l.getAnioPublicacion());
+                System.out.println("Editorial: " + l.getEditorial()); 
+                System.out.println("Género: " + l.getGenero());
+                System.out.println("Copias físicas en estante: " + l.getCopiasDisponibles());
+                System.out.println("Estado actual: " + l.getEstadosCopias());
+            }
+            
+        } else if (sub == 2) {
+            System.out.print("Resumen de usuarios: ");
+            
+           for (Usuario u : controlador.getUsuarios()) {
+            System.out.println("-----------------------------------");
+            System.out.println("Usuario: " + u.getNombre() + " (ID: " + u.getId() + ")");
+            
+            int prestamosActivos = u.getPrestamosActivos().size();
+            System.out.println("Libros en posesión: " + prestamosActivos);
+            
+            if (prestamosActivos > 0) {
+                System.out.println("Títulos actuales:");
+                for (Prestamo p : u.getPrestamosActivos()) {
+                    System.out.println("  - " + p.getLibro().getTitulo() + " (Vence: " + p.getFechaVencimiento() + ")");
+                }
+            }
+            }
+            
+        }
+
         for (Libro l : controlador.getInventario()) {
-            System.out.println("[" + l.getIsbn() + "] " + l.getTitulo() + " - Estado: " + l.getEstado() + " (Copias: " + l.getCopiasDisponibles() + ")");
+            System.out.println("[" + l.getIsbn() + "] " + l.getTitulo() + " - Estado: " + l.getEstadosCopias() + " (Copias: " + l.getCopiasDisponibles() + ")");
         }
 
         System.out.println("\n--- RESUMEN DE USUARIOS (Libros Prestados) ---");
@@ -62,7 +102,7 @@ public class Console {
             for(Libro l : controlador.buscarPorTitulo(sc.nextLine())){
                 System.out.println("Encontrado: " + l.getTitulo());
                 System.out.println("Título: " + l.getTitulo());
-                System.out.println("Estado actual: " + l.getEstado()); // Aquí aparecerá RESERVADO correctamente
+                System.out.println("Estado actual: " + l.getEstadosCopias()); 
                 System.out.println("Copias físicas en estante: " + l.getCopiasDisponibles()); 
             }
             
@@ -73,6 +113,7 @@ public class Console {
             
         }
     }
+    
 
     private void menuPrestar() throws Exception {
         System.out.print("ID Usuario: "); String id = sc.nextLine();

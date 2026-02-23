@@ -1,9 +1,9 @@
-package temporal_biblioteca;
+package Biblioteca.Modelo;
 import java.time.LocalDate; 
 
 
 public class Prestamo {
-    // Atributos privados: Encapsulación total 
+    
     private Libro libro;
     private Usuario usuario;
     private LocalDate fechaPrestamo;
@@ -11,27 +11,25 @@ public class Prestamo {
     private LocalDate fechaDevolucionReal;
     private boolean activo;
 
-    /**
-     * Constructor: Inicializa el préstamo y calcula el vencimiento.
-     */
+   
     public Prestamo(Libro libro, Usuario usuario) {
-        // Validación de nulidad: Evita NullPointerException
+       
         if (libro == null || usuario == null) {
             throw new NullPointerException("El libro y el usuario son obligatorios para crear un préstamo."); 
         }
         
         this.libro = libro;
         this.usuario = usuario;
-        this.fechaPrestamo = LocalDate.now(); // Fecha actual del sistema
+        this.fechaPrestamo = LocalDate.now(); 
         
-        // Regla de negocio: 30 días de préstamo
+    
         this.fechaVencimiento = this.fechaPrestamo.plusDays(30);
         
-        this.activo = true; // El préstamo nace activo
+        this.activo = true; 
         this.fechaDevolucionReal = null;
     }
 
-    //  GETTERS Y SETTERS 
+   
     public Libro getLibro() { return libro; }
 
     public Usuario getUsuario() { return usuario; }
@@ -46,9 +44,8 @@ public class Prestamo {
 
     public LocalDate getFechaDevolucionReal() { return fechaDevolucionReal; }
 
-    /**
-     * Registra la fecha de devolución y valida que no sea futura.
-     */
+    
+    
     public void setFechaDevolucionReal(LocalDate fechaDevolucionReal) {
         if (fechaDevolucionReal != null && fechaDevolucionReal.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de devolución no puede ser futura.");

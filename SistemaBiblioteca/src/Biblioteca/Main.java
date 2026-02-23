@@ -1,6 +1,12 @@
-package temporal_biblioteca;
+package Biblioteca;
 
-//package sysbiblio.app;
+import Biblioteca.Vista.Console;
+import Biblioteca.Controlador.GestorBiblioteca;
+import Biblioteca.Modelo.Genero;
+import Biblioteca.Modelo.Libro;
+import Biblioteca.Modelo.Usuario;
+
+
 
 
 
@@ -8,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         GestorBiblioteca controlador = new GestorBiblioteca();
         
-        // Creamos algunos datos de prueba
+      
         controlador.agregarLibro(new Libro("111", "El Quijote", "Cervantes", 1605, "Planeta", Genero.NOVELA, 2));
      
         controlador.agregarUsuario(new Usuario("U01", "TuNombre"));
